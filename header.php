@@ -67,6 +67,6 @@ echo <<<EOF
 		</form>
 EOF;
 
-$footer = "</body></html>";
+$footer = "<p><small>powered by <a href=\"http://miniqdb.googlecode.com/\">miniqdb</a></body></html>";
 
 ?>
