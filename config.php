@@ -17,16 +17,24 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA. */
 
+///////////////
 // mysql config
 $user = '';
 $pass = '';
 $db = '';
+// use localhost as the host and keep port as null if mysql is local
 $host = '';
+$port = null;
 // qdb config
 $qdbname = ''; // shown at top of every page
 
+////////////////////
 // code, don't touch
-$conn = mysql_connect("$host","$user","$pass");
-mysql_select_db ($db, $conn);
+$pdostring = 'mysql:host='.$host;
+if ($port != null) {
+	$pdostring .= ';' . $port;
+}
+$pdostring .= ";dbname=$db";
+$db = new PDO($pdostring, $user, $pass);
 
 ?>

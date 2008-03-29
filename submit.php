@@ -21,7 +21,6 @@ require "header.php";
 
 // Gets args from POST
 $quote = $_POST["quote"];
-$epoch = date("U");
 
 // Replace IRC "<" and ">" characters with the HTML equivalent.
 // Then strip newlines from the top and bottom of the quote.
@@ -32,9 +31,9 @@ $quote_lb = trim($quote_gt);
 // Insert into database as new. We leave out ID number cause the
 // database will autoincrement that field by itself.
 
-$sql = "INSERT INTO miniqdb (epoch,quote) VALUES ('$epoch','$quote_lb')";
-$result = mysql_query($sql);
-$id = mysql_insert_id();
+$st = $db->prepare('INSERT INTO miniqdb (epoch,quote) VALUES (?,?)');
+$st->execute(array(date('U'), $quote_lb));
+$id = $db->lastInsertId();
 
 echo "<p>quote posted</p>";
 echo "<p>Quote <a href=\"quote.php?id=$id\">$id</a> was just added.</p>";
