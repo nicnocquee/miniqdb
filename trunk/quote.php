@@ -25,11 +25,11 @@ $id = $_GET['id'];
 
 require "header.php";
 
-$result = mysql_query("SELECT id,quote FROM miniqdb WHERE id=$id", $conn);
-if (mysql_num_rows($result) == 0) {
+$st = $db->query("SELECT id,quote FROM miniqdb WHERE id=$id");
+if (!$st) {
 	echo "<p>Quote $id doesn't exist.</p>";
 } else {
-	while ($r = mysql_fetch_assoc($result)) {
+	foreach ($st->fetchAll() as $r) {
 		echo '<div class="quote">';
 		echo '<pre><a href="quote.php?id=' . $r['id'] . '">#' . $r['id'] . "</a>\n";
 		echo $r['quote'];

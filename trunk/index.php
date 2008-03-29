@@ -20,11 +20,12 @@
 require "header.php";
 echo "<p>displaying random 20 or so quotes</p>";
 
+// we take '20 or so' literally
 $limit = mt_rand(18, 22);
 
-$result = mysql_query("SELECT id,quote FROM miniqdb ORDER BY RAND() LIMIT $limit", $conn);
+$st = $db->query("SELECT id,quote FROM miniqdb ORDER BY RAND() LIMIT $limit");
 
-while ($r = mysql_fetch_assoc($result)) {
+foreach ($st->fetchAll() as $r) {
 	echo '<div class="quote">';
 	echo '<pre><a href="quote.php?id=' . $r['id'] . '">#' . $r['id'] . "</a>\n";
 	echo $r['quote'];

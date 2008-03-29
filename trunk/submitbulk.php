@@ -21,10 +21,11 @@ require "header.php";
 
 // Gets args from POST
 $quote = $_POST["quote"];
-$epoch = date("U");
 
 // Explode that text.
 $kaboom = explode("\r\n\r\n", $quote);
+
+$ids = array();
 
 foreach($kaboom as $quote) {
 
@@ -39,9 +40,9 @@ foreach($kaboom as $quote) {
 	// Insert into database as new. We leave out ID number cause the
 	// database will autoincrement that field by itself.
 
-	$sql = "INSERT INTO miniqdb (epoch,quote) VALUES ('$epoch','$quote_lb')";
-	$result = mysql_query($sql);
-	$ids[] = mysql_insert_id();
+	$st = $db->prepare('INSERT INTO miniqdb (epoch,quote) VALUES (?,?)');
+	$st->execute(array(date('U'), $quote_lb));
+	$ids[] = $db->lastInsertId();
 
 }
 

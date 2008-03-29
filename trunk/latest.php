@@ -19,9 +19,9 @@
 
 require "header.php";
 
-$result = mysql_query("SELECT id,quote FROM miniqdb ORDER BY id DESC LIMIT 10", $conn);
+$st = $db->query("SELECT id,quote FROM miniqdb ORDER BY id DESC LIMIT 10");
 
-while ($r = mysql_fetch_assoc($result)) {
+foreach ($st->fetchAll() as $r) {
 	echo '<div class="quote">';
 	echo '<pre><a href="quote.php?id=' . $r['id'] . '">#' . $r['id'] . "</a>\n";
 	echo $r['quote'];

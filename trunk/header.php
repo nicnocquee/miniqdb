@@ -19,8 +19,8 @@
 
 require 'config.php';
 
-$totalq = mysql_query("SELECT * FROM miniqdb", $conn);
-$numq = mysql_num_rows($totalq);
+$totalq = $db->query("SELECT COUNT(*) FROM miniqdb");
+$numq = $totalq->fetchColumn(0);
 
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">';
