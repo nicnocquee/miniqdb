@@ -43,33 +43,34 @@ function throw_error($id) {
 			$text = "unknown error";
 	}
 	return_data($_method, array('error' => array(0 => array('@id' => $id, '#text' => $text))));
-	exit();
 }
 
 function act_quote($method) {
 	// act quote
 	// required vars: id
+	global $db;
 	if (isset($_GET['id'])) {
 		$_id = $_GET['id'];
 	} else {
 		throw_error(3);
 	}
 	$st = $db->prepare("SELECT * FROM miniqdb WHERE id=?");
-	$st->execute(array($id));
-	if (!$st) {
+	$st->execute(array($_id));
+	if ($st->rowCount() == 0) {
 		throw_error(4);
+	} else {
+		$data = array();
+		$data['quote'] = array();
+		foreach ($st->fetchAll() as $r) {
+			$quote = array();
+			$quote['@id'] = $r['id'];
+			$quote['@timestamp'] = $r['timestamp'];
+			$quote['#text'] = $r['quote'];
+			$quote['@lines'] = count(explode('\n', $r['quote']));
+			$data['quote'][] = $quote;
+		}
+		return_data($method, $data);
 	}
-	$data = array();
-	$data['quote'] = array();
-	foreach ($st->fetchAll() as $r) {
-		$quote = array();
-		$quote['@id'] = $r['id'];
-		$quote['@timestamp'] = $r['timestamp'];
-		$quote['#text'] = $r['quote'];
-		$quote['@lines'] = count(explode('\n', $r['quote']));
-		$data['quote'][] = $quote;
-	}
-	return_data($method, $data);
 }
 
 function act_stats($method) {

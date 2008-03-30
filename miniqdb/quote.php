@@ -27,7 +27,7 @@ require "header.php";
 
 $st = $db->prepare("SELECT id,quote FROM miniqdb WHERE id=?");
 $st->execute(array($id));
-if (!$st) {
+if ($st->rowCount() == 0) {
 	echo "<p>Quote $id doesn't exist.</p>";
 } else {
 	foreach ($st->fetchAll() as $r) {
