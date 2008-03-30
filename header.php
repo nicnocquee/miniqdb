@@ -19,6 +19,9 @@
 
 require 'config.php';
 
+// damn you magic quotes
+set_magic_quotes_runtime(0);
+
 $totalq = $db->query("SELECT COUNT(*) FROM miniqdb");
 $numq = $totalq->fetchColumn(0);
 
