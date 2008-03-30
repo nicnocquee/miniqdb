@@ -1,5 +1,5 @@
-#summary Documentation for the API
-#labels Section-API,Deprecated
+﻿#summary Documentation for the API
+#labels Section-API,Featured
 
 = miniqdb API =
 The miniqdb API is a simple way for non-humans to read the database. It is provided through api.php.
