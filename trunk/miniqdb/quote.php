@@ -25,7 +25,8 @@ $id = $_GET['id'];
 
 require "header.php";
 
-$st = $db->query("SELECT id,quote FROM miniqdb WHERE id=$id");
+$st = $db->prepare("SELECT id,quote FROM miniqdb WHERE id=?");
+$st->execute(array($id));
 if (!$st) {
 	echo "<p>Quote $id doesn't exist.</p>";
 } else {
