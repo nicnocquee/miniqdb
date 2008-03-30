@@ -20,7 +20,7 @@
 require "header.php";
 
 // Gets args from POST
-$quote = $_POST["quote"];
+$quote = stripslashes_if_gpc_magic_quotes($_POST["quote"]);
 
 // Replace IRC "<" and ">" characters with the HTML equivalent.
 // Then strip newlines from the top and bottom of the quote.

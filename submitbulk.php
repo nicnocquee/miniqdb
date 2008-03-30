@@ -20,7 +20,7 @@
 require "header.php";
 
 // Gets args from POST
-$quote = $_POST["quote"];
+$quote = stripslashes_if_gpc_magic_quotes($_POST["quote"]);
 
 // Explode that text.
 $kaboom = explode("\r\n\r\n", $quote);
