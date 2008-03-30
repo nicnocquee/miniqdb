@@ -21,25 +21,44 @@ require "config.php";
 
 function return_data($method, $data) {
 	print_r($data);
+	exit();
 }
 
 function throw_error($id) {
+	global $_method;
 	switch ($id) {
 		case 1:
 			$text = "invalid method";
+			break;
 		case 2:
 			$text = "invalid act";
+			break;
+		case 3:
+			$text = "no quote id";
+			break;
+		case 4:
+			$text = "invalid quote id";
+			break;
+		default:
+			$text = "unknown error";
 	}
 	return_data($_method, array('error' => array(0 => array('@id' => $id, '#text' => $text))));
 	exit();
 }
 
-function act_quote() {
+function act_quote($method) {
 	// act quote
 	// required vars: id
-	$_id = $_GET['id'];
+	if (isset($_GET['id'])) {
+		$_id = $_GET['id'];
+	} else {
+		throw_error(3);
+	}
 	$st = $db->prepare("SELECT * FROM miniqdb WHERE id=?");
 	$st->execute(array($id));
+	if (!$st) {
+		throw_error(4);
+	}
 	$data = array();
 	$data['quote'] = array();
 	foreach ($st->fetchAll() as $r) {
@@ -50,10 +69,10 @@ function act_quote() {
 		$quote['@lines'] = count(explode('\n', $r['quote']));
 		$data['quote'][] = $quote;
 	}
-	return_data($_method, $data);
+	return_data($method, $data);
 }
 
-function act_stats() {
+function act_stats($method) {
 	// act stats
 	// no vars
 	$totalq = $db->query("SELECT COUNT(*) FROM miniqdb");
@@ -61,12 +80,14 @@ function act_stats() {
 	$data = array();
 	$data['stats'] = array();
 	$data['stats'][] = array('@count' => $numq);
-	return_data($_method, $data);
+	return_data($method, $data);
 }
 
 // variable method
 // You can use REST. This is the default. JSON soon.
-if ($_GET['method'] == 'rest' or !isset($_GET['method'])) {
+if (!isset($_GET['method'])) {
+	$_method = 'rest';
+} else if ($_GET['method'] == 'rest') {
 	$_method = 'rest';
 } else {
 	$_method = 'rest';
@@ -75,11 +96,16 @@ if ($_GET['method'] == 'rest' or !isset($_GET['method'])) {
 
 // variable act
 // Current available actions: quote stats
+if (!isset($_GET['act'])) {
+	throw_error(2);
+}
 switch($_GET['act']) {
 	case 'quote':
-		act_quote();
+		act_quote($_method);
+		break;
 	case 'stats':
-		act_stats();
+		act_stats($_method);
+		break;
 	default:
 		throw_error(2);
 }
