@@ -59,7 +59,7 @@ class Miniqdb(callbacks.Plugin):
             quote = dom.getElementsByTagName('miniqdb')[0].getElementsByTagName('quote')[0]
             lines = int(quote.getAttribute('lines'))
             if lines > maxlines:
-                reply = root+'/quote.php?id='+str(id) + ', ' + str(lines) + ' lines'
+                reply = root+'/quote.php?id='+str(id) + ' (' + str(lines) + ' lines)'
             else:
                 reply = quote.firstChild.data.replace('&lt;','<').replace('&gt;','>')
         for line in reply.split('\n'):
