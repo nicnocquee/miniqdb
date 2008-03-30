@@ -24,3 +24,6 @@ http://miniqdb.googlecode.com/
 
 miniqdb requires the PDO database abstraction layer. This comes with PHP 5.1 or
 later, and is available as a PECL extension for PHP 5.0.
+
+If you don't want an API, put this at the top of api.php:
+  <?php exit(); ?>
