@@ -19,6 +19,14 @@
 
 require 'config.php';
 
+function stripslashes_if_gpc_magic_quotes($string) {
+	if(get_magic_quotes_gpc()) {
+		return stripslashes($string);
+	} else {
+		return $string;
+	}
+}
+
 $totalq = $db->query("SELECT COUNT(*) FROM miniqdb");
 $numq = $totalq->fetchColumn(0);
 
