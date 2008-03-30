@@ -1,4 +1,4 @@
--- miniqdb - A simple quote database written in PHP
+-- miniqdb - A minimalistic quote database
 -- Copyright (C) 2008  Ian Weller <ianweller@gmail.com>
 
 -- This program is free software; you can redistribute it and/or modify
