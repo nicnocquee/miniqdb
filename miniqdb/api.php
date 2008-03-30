@@ -19,7 +19,7 @@
 
 require "config.php";
 
-header("Content-type: application/xml");
+header("Content-type: text/xml");
 
 function return_data($method, $data) {
 	global $dom;
