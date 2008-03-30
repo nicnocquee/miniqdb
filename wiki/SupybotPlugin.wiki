@@ -1,5 +1,5 @@
 #summary Documentation for the Supybot-Miniqdb plugin.
-#labels Section-Supybot-Miniqdb
+#labels Section-Supybot-Miniqdb,Featured
 
 = Miniqdb for Supybot =
 With the Miniqdb plugin for Supybot, you can access a few parts of your miniqdb instance with a Supybot.
