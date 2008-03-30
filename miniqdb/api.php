@@ -64,7 +64,7 @@ function act_quote($method) {
 		foreach ($st->fetchAll() as $r) {
 			$quote = array();
 			$quote['@id'] = $r['id'];
-			$quote['@timestamp'] = $r['timestamp'];
+			$quote['@timestamp'] = $r['epoch'];
 			$quote['#text'] = $r['quote'];
 			$quote['@lines'] = count(explode('\n', $r['quote']));
 			$data['quote'][] = $quote;
@@ -74,6 +74,7 @@ function act_quote($method) {
 }
 
 function act_stats($method) {
+	global $db;
 	// act stats
 	// no vars
 	$totalq = $db->query("SELECT COUNT(*) FROM miniqdb");
