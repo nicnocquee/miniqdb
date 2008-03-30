@@ -18,18 +18,34 @@ The _method_ variable is optional; it defaults to rest. The _act_ variable is *r
 == quote ==
 Retrieve a single quote by id.
 
+=== Variables ===
+
 || *Variable* || *Required?* || *Description* ||
 || id || yes || id of quote you want to access ||
 
 Example: {{{http://example.com/stuff/miniqdb/api.php?method=rest&act=quote&id=42}}} would return quote 42.
 
+=== Return ===
+A single element, {{{quote}}}, is returned. The text of this element is the quote itself.
+
+==== {{{quote}}} Attributes ====
+|| *Attribute* || *Description* ||
+|| id || id number of the quote ||
+|| timestamp || UNIX epoch of when quote was added ||
+|| lines || number of lines in the quote ||
+
 == stats ==
 Retrieve statistics on the qdb.
+
+=== Variables ===
 
 || *Variable* || *Required?* || *Description* ||
 || || || There are no variables for this action ||
 
 Example: {{{http://example.com/stuff/miniqdb/api.php?method=rest&act=stats}}} would return statistics.
+
+=== Return ===
+A single element, {{{stats}}}, is returned. This contains the attribute {{{count}}}, which is a count of all the quotes in the database.
 
 == Errors ==
 || *Error number* || *Error text* || *Explanation* ||
