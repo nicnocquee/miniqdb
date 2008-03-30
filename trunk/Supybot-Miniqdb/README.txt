@@ -15,6 +15,11 @@ You should have received a copy of the GNU General Public License along
 with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+====================
+
+Rename this folder to 'Miniqdb' and move it to your plugins directory.
+Then tell your bot to 'load Miniqdb'.
+
 Before you're able to use the plugin for a specific channel, you have to set
 the miniqdbRoot configuration option for this plugin. If you use basic
 authentication, you need to set auth.username and auth.password. That is all.
