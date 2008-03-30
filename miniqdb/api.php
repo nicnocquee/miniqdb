@@ -19,9 +19,38 @@
 
 require "config.php";
 
+header("Content-type: application/xml");
+
 function return_data($method, $data) {
-	print_r($data);
+	global $dom;
+	if ($method == 'rest') {
+		$dom = new DOMDocument('1.0');
+		$root = $dom->appendChild($dom->createElement('miniqdb'));
+		element_iter_rest($data, $root);
+		echo $dom->saveXML();
+	} else {
+		die("<b>Utter fail:</b> Caught in infinite invalid method loop.");
+	}
 	exit();
+}
+
+function element_iter_rest($array, $parent) {
+	global $dom;
+	foreach($array as $key=>$value) {
+		foreach($value as $thatone) {
+			$element = $dom->createElement($key);
+			foreach($thatone as $stuff=>$moar) {
+				if ($stuff == '#text') {
+					$element->appendChild($dom->createTextNode($moar));
+				} else if (substr($stuff, 0, 1) == '@') {
+					$element->setAttribute(substr($stuff, 1), $moar);
+				} else {
+					element_iter_rest($thatone, $element);
+				}
+			}
+			$parent->appendChild($element);
+		}
+	}
 }
 
 function throw_error($id) {
@@ -65,8 +94,8 @@ function act_quote($method) {
 			$quote = array();
 			$quote['@id'] = $r['id'];
 			$quote['@timestamp'] = $r['epoch'];
-			$quote['#text'] = $r['quote'];
-			$quote['@lines'] = count(explode('\n', $r['quote']));
+			$quote['#text'] = implode("\n", explode("\r\n", $r['quote']));
+			$quote['@lines'] = count(explode("\r\n", $r['quote']));
 			$data['quote'][] = $quote;
 		}
 		return_data($method, $data);
