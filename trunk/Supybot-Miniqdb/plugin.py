@@ -53,8 +53,10 @@ class Miniqdb(callbacks.Plugin):
         xml = opener.open(url).read()
         dom = minidom.parseString(xml)
         errors = dom.getElementsByTagName('miniqdb')[0].getElementsByTagName('error')
+        prefixNick = False
         if errors != []:
             reply = "There is no quote by that id."
+            prefixNick = True
         else:
             quote = dom.getElementsByTagName('miniqdb')[0].getElementsByTagName('quote')[0]
             lines = int(quote.getAttribute('lines'))
@@ -63,7 +65,7 @@ class Miniqdb(callbacks.Plugin):
             else:
                 reply = quote.firstChild.data.replace('&lt;','<').replace('&gt;','>')
         for line in reply.split('\n'):
-            irc.reply(line)
+            irc.reply(line, False, prefixNick)
     quote = wrap(quote, ['id'])
 
     def stats(self, irc, msg, args):
