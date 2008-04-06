@@ -114,21 +114,17 @@ function act_stats($method) {
 	return_data($method, $data);
 }
 
-function act_random($quote) {
+function act_random($method) {
 	global $db;
 	// act random
 	// optional vars: count (=1)
 	if (isset($_GET['count'])) {
-		if is_int($_GET['count']) {
-			$count = $_GET['count'];
-		} else {
-			$count = 1;
-		}
+		$count = $_GET['count'];
 	} else {
 		$count = 1;
 	}
-	$st = $db->prepare("SELECT * FROM miniqdb ORDER BY RAND() LIMIT ?");
-	$st->execute(array($count));
+	$count = (int)$count;
+	$st = $db->query("SELECT * FROM miniqdb ORDER BY RAND() LIMIT $count");
 	$data = array();
 	$data['quote'] = array();
 	foreach ($st->fetchAll() as $r) {
@@ -164,6 +160,9 @@ switch($_GET['act']) {
 		break;
 	case 'stats':
 		act_stats($_method);
+		break;
+	case 'random':
+		act_random($_method);
 		break;
 	default:
 		throw_error(2);
