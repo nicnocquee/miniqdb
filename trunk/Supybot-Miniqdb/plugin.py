@@ -82,6 +82,25 @@ class Miniqdb(callbacks.Plugin):
         count = stats.getAttribute('count')
         irc.reply(format("There are %s quotes in the database.", count))
 
+    def random(self, irc, msg, args):
+        """takes no arguments
+
+        Returns a random quote."""
+        root = conf.supybot.plugins.Miniqdb.miniqdbRoot()
+        maxlines = conf.supybot.plugins.Miniqdb.maxLines()
+        url = str(root) + '/api.php?method=rest&act=random&count=1'
+        opener = urllib.FancyURLopener()
+        xml = opener.open(url).read()
+        dom = minidom.parseString(xml)
+        quote = dom.getElementsByTagName('miniqdb')[0].getElementsByTagName('quote')[0]
+        lines = int(quote.getAttribute('lines'))
+        if lines > maxlines:
+            reply = root+'/quote.php?id='+str(id) + ' (' + str(lines) + ' lines)'
+        else:
+            reply = quote.firstChild.data.replace('&lt;','<').replace('&gt;','>')
+        for line in reply.split('\n'):
+            irc.reply(line, False, False)
+
 
 Class = Miniqdb
 
