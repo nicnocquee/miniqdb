@@ -114,6 +114,34 @@ function act_stats($method) {
 	return_data($method, $data);
 }
 
+function act_random($quote) {
+	global $db;
+	// act random
+	// optional vars: count (=1)
+	if (isset($_GET['count'])) {
+		if is_int($_GET['count']) {
+			$count = $_GET['count'];
+		} else {
+			$count = 1;
+		}
+	} else {
+		$count = 1;
+	}
+	$st = $db->prepare("SELECT * FROM miniqdb ORDER BY RAND() LIMIT ?");
+	$st->execute(array($count));
+	$data = array();
+	$data['quote'] = array();
+	foreach ($st->fetchAll() as $r) {
+		$quote = array();
+		$quote['@id'] = $r['id'];
+		$quote['@timestamp'] = $r['epoch'];
+		$quote['#text'] = implode("\n", explode("\r\n", $r['quote']));
+		$quote['@lines'] = count(explode("\r\n", $r['quote']));
+		$data['quote'][] = $quote;
+	}
+	return_data($method, $data);
+}
+
 // variable method
 // You can use REST. This is the default. JSON soon.
 if (!isset($_GET['method'])) {
