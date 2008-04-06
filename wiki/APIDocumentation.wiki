@@ -1,4 +1,4 @@
-﻿#summary Documentation for the API
+﻿﻿#summary Documentation for the API
 #labels Section-API,Featured
 
 The *miniqdb API* is a simple way for non-humans to read the database. It is provided through api.php.
@@ -45,6 +45,25 @@ Example: {{{http://example.com/stuff/miniqdb/api.php?method=rest&act=stats}}} wo
 
 == Return ==
 A single element, {{{stats}}}, is returned. This contains the attribute {{{count}}}, which is a count of all the quotes in the database.
+
+= random =
+Retrieve random quotes.
+
+== Variables ==
+
+|| *Variable* || *Required?* || *Description* ||
+|| count || no || number of random quotes you want ||
+
+Example: {{{http://example.com/stuff/miniqdb/api.php?method=rest&act=random&count=2}}} would return 2 random quotes.
+
+== Return ==
+{{{quote}}} element(s) are returned. The text of these elements is the quote itself.
+
+=== {{{quote}}} Attributes ===
+|| *Attribute* || *Description* ||
+|| id || id number of the quote ||
+|| timestamp || UNIX epoch of when quote was added ||
+|| lines || number of lines in the quote ||
 
 = Errors =
 || *Error number* || *Error text* || *Explanation* ||
