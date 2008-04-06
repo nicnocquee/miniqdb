@@ -94,6 +94,7 @@ class Miniqdb(callbacks.Plugin):
         dom = minidom.parseString(xml)
         quote = dom.getElementsByTagName('miniqdb')[0].getElementsByTagName('quote')[0]
         lines = int(quote.getAttribute('lines'))
+        id = quote.getAttribute('id')
         if lines > maxlines:
             reply = root+'/quote.php?id='+str(id) + ' (' + str(lines) + ' lines)'
         else:
