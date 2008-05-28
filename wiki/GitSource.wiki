@@ -1,0 +1,10 @@
+#summary Getting the source from git
+
+== miniqdb ==
+`git clone git://repo.or.cz/miniqdb.git`
+
+== Supybot plugin for miniqdb API ==
+`git clone git://repo.or.cz/miniqdb-supybot.git`
+
+== Submitting patches ==
+Either I can pull from your repo, or you can email me the patch. Either one.
